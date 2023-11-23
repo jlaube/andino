@@ -1,8 +1,7 @@
 from qt_gui.plugin import Plugin
-from .ui_andino_calibrate import *
+from .calibration_widget import *
 
 class CalibrateAndino(Plugin):
-
     def __init__(self, context):
         super(CalibrateAndino, self).__init__(context)
         self.setObjectName('CalibrateAndino')
@@ -10,5 +9,5 @@ class CalibrateAndino(Plugin):
         self._context = context
         self._node = context.node
 
-        self._widget = Ui_CalibrationUI()
+        self._widget = CalibrationWidget(self._node)
         context.add_widget(self._widget)
