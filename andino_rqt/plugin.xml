@@ -1,5 +1,5 @@
 <library path="src">
-	<class name="andino_config" type="andino_rqt.andino_cfg.AndinoConfig" base_class_type="rqt_gui_py::Plugin">
+	<class name="andino_config" type="andino_rqt.calibrate.CalibrateAndino" base_class_type="rqt_gui_py::Plugin">
     <description>
       An example Python GUI plugin to create a great user interface.
     </description>
