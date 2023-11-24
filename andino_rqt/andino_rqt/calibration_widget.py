@@ -40,7 +40,6 @@ class CalibrationWidget(QWidget):
     
     @pyqtSlot()
     def calculateCalibration(self):
-        self.real_distance_m.setText("1.3")
         calculated_radius = self.calculateIdealRadius(float(self.distance_m.text()), float(self.real_distance_m.text())) #include real wheel radius
         self.computed_wheel_radius_m.setText(str(round(calculated_radius, 3)))
     
