@@ -14,16 +14,17 @@ class AndinoConfigReader:
         self.node.get_logger().info('service not available, waiting again...')
     self.req = GetParameters.Request()
 
+  def __del__(self):
+     self.node.destroy_client(self.client)
+
 
   def readWheelRadius(self):
     self.req.names = [self.wheel_radius_param]
-    self.future = self.client.call_async(self.req)
-    rclpy.spin_until_future_complete(self.node, self.future)
 
     try:
-        response = self.future.result()
+        response = self.client.call(self.req)
         self.node.get_logger().info(str(response.values))
         return str(response.values[0].double_value)
     except Exception as e:
         self.node.get_logger().info("DOH!!!!!! " + str(e))
-    return "0.01"
+    return "0.00"

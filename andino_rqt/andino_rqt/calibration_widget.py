@@ -20,12 +20,12 @@ class CalibrationWidget(QWidget):
         loadUi(ui_file, self)
         self.node = node
 
+        # Config reader
+        cfg_reader = AndinoConfigReader(node)
+        self.wheel_radius_m.setText(cfg_reader.readWheelRadius())
+
         # Odometry reader
         self.odom_sub = self.node.create_subscription(Odometry, '/diff_controller/odom', self.odom_callback, 10)
-
-        # Config reader
-        self.cfg_reader = AndinoConfigReader(node)
-        self.wheel_radius_m.setText(self.cfg_reader.readWheelRadius())
 
         # Signals
         self.btnRun.pressed.connect(self.runCalibration)
@@ -50,5 +50,4 @@ class CalibrationWidget(QWidget):
         self.odometry_x_m.setText(str(round(msg.pose.pose.position.x, 2)))
         self.odometry_y_m.setText(str(round(msg.pose.pose.position.y, 2)))
         self.odometry_z_m.setText(str(round(msg.pose.pose.position.z, 2)))
-        self.node.get_logger().info(str(msg))
 
