@@ -43,7 +43,7 @@ class CalibrationWidget(QWidget):
 
     @pyqtSlot()
     def calculateCalibration(self):
-        calculated_radius = self.calculateIdealRadius(float(self.distance_m.text()), float(self.real_distance_m.text())) #include real wheel radius
+        calculated_radius = self.calculateIdealRadius(float(self.distance_m.text()), float(self.real_distance_m.text()), float(self.wheel_radius_m.text()))
         self.computed_wheel_radius_m.setText(str(round(calculated_radius, 3)))
 
     def odom_callback(self, msg):
