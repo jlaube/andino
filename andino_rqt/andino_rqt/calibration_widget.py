@@ -17,3 +17,15 @@ class CalibrationWidget(QWidget):
         ui_file = os.path.join(package_path, 'share', 'andino_rqt', 'resource', 'andino_calibrate.ui')
         loadUi(ui_file, self)
         self.node = node
+
+        # Odometry reader
+
+        # Config reader
+
+        # Signals
+        self.btnRun.pressed.connect(self.runCalibration)
+
+    @pyqtSlot()
+    def runCalibration(self):
+        self.real_distance_m.setText("1.3")
+
