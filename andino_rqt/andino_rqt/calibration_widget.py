@@ -8,6 +8,7 @@ from ament_index_python.resources import get_resource
 from PyQt5.QtCore import Qt, pyqtSlot
 from rosidl_runtime_py.utilities import get_message
 from rqt_py_common.topic_completer import TopicCompleter
+from .andino_cfg_reader import *
 
 
 class CalibrationWidget(QWidget):
@@ -23,6 +24,8 @@ class CalibrationWidget(QWidget):
         self.odom_sub = self.node.create_subscription(Odometry, '/diff_controller/odom', self.odom_callback, 10)
 
         # Config reader
+        self.cfg_reader = AndinoConfigReader(node)
+        self.wheel_radius_m.setText(self.cfg_reader.readWheelRadius())
 
         # Signals
         self.btnRun.pressed.connect(self.runCalibration)
@@ -37,14 +40,15 @@ class CalibrationWidget(QWidget):
         if distance == 0:
             return -1
         return real_distance * wheel_radius / distance
-    
+
     @pyqtSlot()
     def calculateCalibration(self):
         calculated_radius = self.calculateIdealRadius(float(self.distance_m.text()), float(self.real_distance_m.text())) #include real wheel radius
         self.computed_wheel_radius_m.setText(str(round(calculated_radius, 3)))
-    
+
     def odom_callback(self, msg):
         self.odometry_x_m.setText(str(round(msg.pose.pose.position.x, 2)))
         self.odometry_y_m.setText(str(round(msg.pose.pose.position.y, 2)))
         self.odometry_z_m.setText(str(round(msg.pose.pose.position.z, 2)))
+        self.node.get_logger().info(str(msg))
 
